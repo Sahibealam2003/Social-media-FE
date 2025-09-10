@@ -2,6 +2,7 @@ import React, { useContext, useRef, useState } from 'react'
 import { uiContext } from '../App'
 import axios from 'axios'
 import toast from 'react-hot-toast'
+import { useNavigate } from 'react-router-dom'
 
 
 const Signup = () => {
@@ -18,6 +19,7 @@ export default Signup
 
 const Email = () => {
   const{ui, setUi, email, setEmail} = useContext(uiContext)
+    const navigate = useNavigate()
 
   function btnCLickhandler()
   {
@@ -57,6 +59,9 @@ const Email = () => {
         >
           Send
         </button>
+        <p className='text-right mt-2'>Already a user? <span onClick={() => {
+          navigate("/login")
+        }} className='text-blue-400 cursor-pointer'>Sign in</span> instead</p>
       </div>
     </div>
   )

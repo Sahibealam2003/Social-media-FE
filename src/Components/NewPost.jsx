@@ -2,7 +2,7 @@ import React from 'react'
 import Navbar from './Navbar'
 import Sidebar from './Sidebar'
 
-const Home = () => {
+const NewPost = () => {
   return (
     <div>
     <Navbar/>
@@ -11,4 +11,4 @@ const Home = () => {
   )
 }
 
-export default Home
+export default NewPost
