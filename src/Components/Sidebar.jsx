@@ -1,8 +1,8 @@
-import axios from 'axios'
-import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
-import { Link, useNavigate } from 'react-router-dom'
-import { clearData } from '../Utils/UserSlice'
+import axios from "axios"
+import React, { useState } from "react"
+import { useDispatch } from "react-redux"
+import { NavLink, useNavigate } from "react-router-dom"
+import { clearData } from "../Utils/UserSlice"
 
 const Sidebar = () => {
   const [showSidebar, setShowSidebar] = useState(false)
@@ -11,7 +11,7 @@ const Sidebar = () => {
 
   function logout() {
     async function logOut() {
-      const res = await axios.post(
+      await axios.post(
         import.meta.env.VITE_DOMAIN + "/api/auth/logout",
         {},
         { withCredentials: true }
@@ -22,69 +22,86 @@ const Sidebar = () => {
     logOut()
   }
 
+  const activeClass =
+    "bg-white/30 text-purple-700 font-semibold shadow-md"
+
   return (
     <div
       className={
-        "h-[94vh] bg-white shadow-md flex flex-col p-4 relative transition-all duration-300 " +
+        "fixed top-[80px] left-0 bottom-0 bg-gradient-to-b from-pink-200 via-purple-200 to-blue-200 flex flex-col p-4 space-y-6 transition-all duration-300 shadow-lg z-50 " +
         (showSidebar ? "w-64" : "w-20")
       }
     >
       {/* Toggle Button */}
-      {!showSidebar ? (
-        <div className="flex items-center justify-center mb-6">
-          <i
-            onClick={() => setShowSidebar(true)}
-            className="fa-solid fa-bars text-xl cursor-pointer text-gray-800"
-          ></i>
-        </div>
-      ) : (
-        <div className="absolute top-4 right-4">
-          <i
-            onClick={() => setShowSidebar(false)}
-            className="fa-solid fa-arrow-left text-xl cursor-pointer text-gray-800"
-          ></i>
-        </div>
-      )}
+      <i
+        onClick={() => setShowSidebar(!showSidebar)}
+        className="fa-solid fa-bars text-gray-700 cursor-pointer text-xl hover:text-purple-700 transition"
+      ></i>
 
       {/* Nav Links */}
-      <nav className="flex flex-col space-y-4 font-medium mt-10">
-        <Link to="/" className="cursor-pointer">
-          <p className="flex items-center gap-4 px-3 py-2 rounded-md transition cursor-pointer text-gray-800">
-            <i className="fa-regular fa-house text-lg text-gray-800"></i>
-            {showSidebar && <span className="whitespace-nowrap">Home</span>}
-          </p>
-        </Link>
+      <nav className="flex flex-col space-y-4 font-medium text-gray-800 mt-4">
+        <NavLink
+          to="/"
+          className={({ isActive }) =>
+            `flex items-center gap-3 px-3 py-2 rounded-lg transition ${
+              isActive
+                ? activeClass
+                : "hover:bg-white/20 hover:text-purple-800"
+            }`
+          }
+        >
+          <i className="fa-solid fa-house"></i>
+          {showSidebar && <span>Home</span>}
+        </NavLink>
 
-        <Link to="/profile" className="cursor-pointer">
-          <p className="flex items-center gap-4 px-3 py-2 rounded-md transition cursor-pointer text-gray-800">
-            <i className="fa-solid fa-user text-lg text-gray-800"></i>
-            {showSidebar && <span className="whitespace-nowrap">Profile</span>}
-          </p>
-        </Link>
+        <NavLink
+          to="/profile"
+          className={({ isActive }) =>
+            `flex items-center gap-3 px-3 py-2 rounded-lg transition ${
+              isActive
+                ? activeClass
+                : "hover:bg-white/20 hover:text-purple-800"
+            }`
+          }
+        >
+          <i className="fa-solid fa-user"></i>
+          {showSidebar && <span>Profile</span>}
+        </NavLink>
 
-        <Link to="/chats" className="cursor-pointer">
-          <p className="flex items-center gap-4 px-3 py-2 rounded-md transition cursor-pointer text-gray-800">
-            <i className="fa-solid fa-comments text-lg text-gray-800"></i>
-            {showSidebar && <span className="whitespace-nowrap">Chats</span>}
-          </p>
-        </Link>
+        <NavLink
+          to="/chats"
+          className={({ isActive }) =>
+            `flex items-center gap-3 px-3 py-2 rounded-lg transition ${
+              isActive
+                ? activeClass
+                : "hover:bg-white/20 hover:text-purple-800"
+            }`
+          }
+        >
+          <i className="fa-solid fa-comments"></i>
+          {showSidebar && <span>Chats</span>}
+        </NavLink>
 
-        <Link to="/add" className="cursor-pointer">
-          <p className="flex items-center gap-4 px-3 py-2 rounded-md transition cursor-pointer text-gray-800">
-            <i className="fa-solid fa-plus text-lg text-gray-800"></i>
-            {showSidebar && <span className="whitespace-nowrap">Add New Post</span>}
-          </p>
-        </Link>
+        <NavLink
+          to="/add"
+          className={({ isActive }) =>
+            `flex items-center gap-3 px-3 py-2 rounded-lg transition ${
+              isActive
+                ? activeClass
+                : "hover:bg-white/20 hover:text-purple-800"
+            }`
+          }
+        >
+          <i className="fa-solid fa-plus"></i>
+          {showSidebar && <span>Add New Post</span>}
+        </NavLink>
       </nav>
-
-      {/* Spacer */}
-      <div className="flex-grow"></div>
 
       {/* Logout Button */}
       {showSidebar && (
         <button
           onClick={logout}
-          className="w-full py-2 rounded-lg font-semibold transition cursor-pointer"
+          className="mt-auto w-full bg-gradient-to-r from-red-400 to-pink-500 hover:opacity-90 text-white py-2 rounded-xl font-semibold shadow-md transition"
         >
           Logout
         </button>
