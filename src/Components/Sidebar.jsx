@@ -3,6 +3,7 @@ import React, { useState } from "react"
 import { useDispatch } from "react-redux"
 import { NavLink, useNavigate } from "react-router-dom"
 import { clearData } from "../Utils/UserSlice"
+import ToggleSwitch from "./PrivacyBtn"
 
 const Sidebar = () => {
   const [showSidebar, setShowSidebar] = useState(false)
@@ -95,6 +96,7 @@ const Sidebar = () => {
           <i className="fa-solid fa-plus"></i>
           {showSidebar && <span>Add New Post</span>}
         </NavLink>
+        {showSidebar && <ToggleSwitch label={"Private Account"} />}
       </nav>
 
       {/* Logout Button */}

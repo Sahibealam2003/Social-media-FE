@@ -1,12 +1,14 @@
 import axios from 'axios'
 import React, { useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 
 const Navbar = () => {
   const userData = useSelector(store => store.user)
   const[q, setQ] = useState("")
   const[suggestions, setSuggestions] = useState([])
   const dropdownRef = useRef(null)
+  const nav = useNavigate()
 // console.log(suggestions)
 
 
@@ -76,6 +78,9 @@ useEffect(() => {
     {suggestions.map((item, idx) => {
       return (
         <div
+        onClick={() => {
+          nav(`/profile/view/${item._id}`)
+        }}
           key={idx}
           className="flex items-center gap-3 px-4 py-2 hover:bg-gray-100 cursor-pointer transition"
         >

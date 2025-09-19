@@ -34,13 +34,13 @@ const Login = () => {
     {
         try {
             const res = await axios.post(import.meta.env.VITE_DOMAIN + "/api/auth/signin", {[isMail ? "mail" : "username"] : username, password}, {withCredentials  : true})
-            console.log(res.data.data)
+            // console.log(res.data.data)
              dispatch(addUserData(res.data.data))           
             nav("/home")
         } catch (error) {
             setUsername("")
             setPassword("")
-            toast.error(error.response.data.error)
+            toast.error(error.response.data.error);
         }
 
     }
