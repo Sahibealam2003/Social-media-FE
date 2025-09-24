@@ -112,7 +112,9 @@ useEffect(() => {
         <p className="text-gray-800 font-semibold hover:text-pink-600 transition">
           {userData.username}
         </p>
-        <div className="relative group">
+        <div onClick={() => {
+          nav("/profile")
+        }} className="relative group">
           <img
             src={
               userData.profilePicture ||

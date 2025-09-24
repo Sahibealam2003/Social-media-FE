@@ -1,14 +1,14 @@
-import axios from "axios"
-import React, { useState } from "react"
-import { useDispatch } from "react-redux"
-import { NavLink, useNavigate } from "react-router-dom"
-import { clearData } from "../Utils/UserSlice"
-import ToggleSwitch from "./PrivacyBtn"
+import axios from "axios";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { NavLink, useNavigate } from "react-router-dom";
+import { clearData } from "../Utils/UserSlice";
+import ToggleSwitch from "./PrivacyBtn";
 
 const Sidebar = () => {
-  const [showSidebar, setShowSidebar] = useState(false)
-  const nav = useNavigate()
-  const dispatch = useDispatch()
+  const [showSidebar, setShowSidebar] = useState(false);
+  const nav = useNavigate();
+  const dispatch = useDispatch();
 
   function logout() {
     async function logOut() {
@@ -16,15 +16,14 @@ const Sidebar = () => {
         import.meta.env.VITE_DOMAIN + "/api/auth/logout",
         {},
         { withCredentials: true }
-      )
-      dispatch(clearData())
-      nav("/login")
+      );
+      dispatch(clearData());
+      nav("/login");
     }
-    logOut()
+    logOut();
   }
 
-  const activeClass =
-    "bg-white/30 text-purple-700 font-semibold shadow-md"
+  const activeClass = "bg-white/30 text-purple-700 font-semibold shadow-md";
 
   return (
     <div
@@ -45,9 +44,7 @@ const Sidebar = () => {
           to="/"
           className={({ isActive }) =>
             `flex items-center gap-3 px-3 py-2 rounded-lg transition ${
-              isActive
-                ? activeClass
-                : "hover:bg-white/20 hover:text-purple-800"
+              isActive ? activeClass : "hover:bg-white/20 hover:text-purple-800"
             }`
           }
         >
@@ -59,9 +56,7 @@ const Sidebar = () => {
           to="/profile"
           className={({ isActive }) =>
             `flex items-center gap-3 px-3 py-2 rounded-lg transition ${
-              isActive
-                ? activeClass
-                : "hover:bg-white/20 hover:text-purple-800"
+              isActive ? activeClass : "hover:bg-white/20 hover:text-purple-800"
             }`
           }
         >
@@ -73,9 +68,7 @@ const Sidebar = () => {
           to="/chats"
           className={({ isActive }) =>
             `flex items-center gap-3 px-3 py-2 rounded-lg transition ${
-              isActive
-                ? activeClass
-                : "hover:bg-white/20 hover:text-purple-800"
+              isActive ? activeClass : "hover:bg-white/20 hover:text-purple-800"
             }`
           }
         >
@@ -87,9 +80,7 @@ const Sidebar = () => {
           to="/add"
           className={({ isActive }) =>
             `flex items-center gap-3 px-3 py-2 rounded-lg transition ${
-              isActive
-                ? activeClass
-                : "hover:bg-white/20 hover:text-purple-800"
+              isActive ? activeClass : "hover:bg-white/20 hover:text-purple-800"
             }`
           }
         >
@@ -97,6 +88,18 @@ const Sidebar = () => {
           {showSidebar && <span>Add New Post</span>}
         </NavLink>
         {showSidebar && <ToggleSwitch label={"Private Account"} />}
+
+        <NavLink
+          to="/review-requests"
+          className={({ isActive }) =>
+            `flex items-center gap-3 px-3 py-2 rounded-lg transition ${
+              isActive ? activeClass : "hover:bg-white/60 hover:shadow-md"
+            }`
+          }
+        >
+          <i className="fa-solid fa-user-group"></i>
+          {showSidebar && <span>Review Requests</span>}
+        </NavLink>
       </nav>
 
       {/* Logout Button */}
@@ -109,7 +112,7 @@ const Sidebar = () => {
         </button>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default Sidebar
+export default Sidebar;

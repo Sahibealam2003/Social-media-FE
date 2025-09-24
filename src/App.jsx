@@ -11,6 +11,7 @@ import NewPost from './Components/NewPost';
 import EditProfile from './Components/EditProfile';
 import EditPassword from './Components/EditPassword';
 import ViewProfile from './Components/ViewProfile';
+import Requests from './Components/Requests';
 
 
 export const uiContext =  createContext()
@@ -36,6 +37,7 @@ const App = () => {
           <Route path='/profile/edit' element={<EditProfile />} />
           <Route path='/profile/edit/password' element={<EditPassword />} />
           <Route path='/profile/view/:userId' element={<ViewProfile />} />
+          <Route path='/review-requests' element={<Requests />} />
         </Route>
       </Routes>
     </div>
