@@ -33,7 +33,7 @@ const ViewProfile = () => {
       <div className='flex'>
         <Sidebar />
 
-        {isPrivate ? <PrivateAccount data={userData} /> : <Public data={userData} />}
+        {isPrivate ? <PrivateAccount data={userData} setData={setUserData} /> : <Public data={userData} />}
 
 
       </div>

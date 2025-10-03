@@ -1,10 +1,30 @@
-import React, { useEffect } from 'react'
+import axios from 'axios'
+import React, { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 
-const PrivateAccount = ({data}) => {
+const PrivateAccount = ({data, setData}) => {
 
-  console.log(data)
   const{userId} = useParams()
+  const userSliceData = useSelector(store => store.user)
+  const[isFollowing, setIsFollowing] = useState(userSliceData.following.some(item => item == userId))
+  const[isReqSent, setIsReqSent] = useState(false)
+
+  useEffect(() => {
+
+    async function check()
+    {
+      const res = await axios.get(import.meta.env.VITE_DOMAIN + `/api/follow-requests/check/${userId}`, {withCredentials : true})
+      // console.log(res)
+      setIsReqSent(res.data.flag)
+    }
+
+    if(!isFollowing)
+    {
+      check()
+    }
+
+  }, [])
 
     const {
     profilePicture,
@@ -18,8 +38,48 @@ const PrivateAccount = ({data}) => {
   } = data
 
 
+  function followBtnHandler()
+  {
+    async function unfollow() {
+      const res = await axios.patch(import.meta.env.VITE_DOMAIN + `/api/follow-requests/unfollow/${userId}`, {}, {withCredentials : true})   
+      // console.log(res)
+      setData(res.data.toUserData)
+      setIsFollowing(false)
+    }
+
+    async function cancelReq() {
+      const res = await axios.delete(import.meta.env.VITE_DOMAIN + `/api/follow-requests/${userId}`,{withCredentials : true})   
+      // console.log(res)
+      setIsReqSent(false)
+    }
+
+    async function follow() {
+      const res = await axios.post(import.meta.env.VITE_DOMAIN + `/api/follow-requests/${userId}`,{},{withCredentials : true})   
+      // console.log(res)
+      setIsReqSent(true)
+    }
+
+    
+    if(isFollowing)
+    {
+      unfollow()
+    }
+    else
+    {
+      if(isReqSent)
+      {
+        cancelReq()
+      }
+      else
+      {
+        follow()
+      }
+    }
+  }
+
+
   return (
-    <div className='mx-auto mt-10'>
+    <div>
             <div className="flex flex-col sm:flex-row sm:items-center gap-6">
         <img
           src={
@@ -39,20 +99,31 @@ const PrivateAccount = ({data}) => {
               </span>
             </p>
 
+            <button
+              onClick={followBtnHandler}
+              className={`px-4 py-1 rounded-lg text-sm font-medium transition ${
+                isFollowing
+                  ? "bg-gray-200 text-gray-700 hover:bg-gray-300"
+                  : "bg-pink-500 text-white hover:bg-pink-600"
+              }`}
+            >
+              {isFollowing ? "Unfollow" : (isReqSent ? "Pending" : "Follow")}
+            </button>
+
        
           </div>
 
           {/* Stats */}
           <div className="flex gap-6 mt-3 text-gray-700">
             <p>
-              <span className="font-semibold">{posts?.length || posts}</span> Posts
+              <span className="font-semibold">{posts?.length }</span> Posts
             </p>
             <p>
-              <span className="font-semibold">{followers?.length || followers}</span>{" "}
+              <span className="font-semibold">{followers?.length }</span>{" "}
               Followers
             </p>
             <p>
-              <span className="font-semibold">{following?.length || following}</span>{" "}
+              <span className="font-semibold">{following?.length}</span>{" "}
               Following
             </p>
           </div>
